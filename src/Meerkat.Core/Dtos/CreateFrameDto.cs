@@ -1,16 +1,13 @@
-﻿namespace Meerkat.Web.Models
+﻿namespace Meerkat.Core.Dtos
 {
-    public class Frame
+    public class CreateFrameDto
     {
-        public long Id { get; set; }
         public string Function { get; set; }
         public string Module { get; set; }
         public string ContextLine { get; set; }
         public bool InApp { get; set; }
         public int LineNumber { get; set; }
         public int ColumnNumber { get; set; }
-
-        public Event Event { get; set; }
-        public long EventId { get; set; }
+        public string FileName { get; set; }
     }
 }

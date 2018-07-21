@@ -40,6 +40,8 @@ namespace Meerkat.Web
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddApplicationData();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -67,7 +69,7 @@ namespace Meerkat.Web
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{area:exist}/{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

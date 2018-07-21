@@ -1,4 +1,4 @@
-﻿namespace Meerkat.Web.Models
+﻿namespace Meerkat.Core.Models
 {
     public enum EventLevel
     {
@@ -6,6 +6,6 @@
        Error = 1,
        Warning = 2,
        Information = 3,
-       Debug = 4
+       Verbose = 4
     }
 }

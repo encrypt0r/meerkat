@@ -1,5 +1,6 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using Meerkat.Core.Models;
+using System;
+using System.Collections.Generic;
 
 namespace Meerkat.Web.Models
 {
@@ -14,6 +15,10 @@ namespace Meerkat.Web.Models
         public string Release { get; set; }
         public string RootCause { get; set; }
         public string Type { get; set; }
-        public virtual Collection<Frame> StackTrace { get; set; }
+        public string MachineName { get; set; }
+        public string OperatingSystem { get; set; }
+        public string Runtime { get; set; }
+        public string Modules { get; set; }
+        public virtual ICollection<Frame> StackTrace { get; set; }
     }
 }
