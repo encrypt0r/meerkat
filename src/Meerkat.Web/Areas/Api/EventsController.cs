@@ -19,6 +19,7 @@ namespace Meerkat.Web.Areas.Api
             _unitOfWork = unitOfWork;
         }
 
+        [HttpPost]
         public async Task<IActionResult> Post([FromBody]CreateEventDto dto)
         {
             if (!ModelState.IsValid)

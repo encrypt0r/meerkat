@@ -43,6 +43,11 @@ namespace Meerkat.Web
             services.AddApplicationData();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddSwaggerGen(config =>
+            {
+                config.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info { Title = "Meerkat API V1", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,6 +69,9 @@ namespace Meerkat.Web
             app.UseCookiePolicy();
 
             app.UseAuthentication();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Meerkat API V1"));
 
             app.UseMvc(routes =>
             {
