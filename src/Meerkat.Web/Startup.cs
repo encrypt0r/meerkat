@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Meerkat.Web.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Meerkat.Web.Filters;
 
 namespace Meerkat.Web
 {
@@ -46,7 +47,13 @@ namespace Meerkat.Web
 
             services.AddSwaggerGen(config =>
             {
-                config.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info { Title = "Meerkat API V1", Version = "v1" });
+                config.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info
+                {
+                    Title = "Meerkat API V1",
+                    Version = "v1"
+                });
+
+                config.DocumentFilter<ShowOnlyApiControllersInSwaggerFilter>();
             });
         }
 
@@ -71,13 +78,16 @@ namespace Meerkat.Web
             app.UseAuthentication();
 
             app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Meerkat API V1"));
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Meerkat API V1");
+            });
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "areaRoute",
-                    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                    template: "{area}/{controller=Home}/{action=Index}/{id?}");
 
                 routes.MapRoute(
                     name: "default",
