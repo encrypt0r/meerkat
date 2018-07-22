@@ -34,9 +34,15 @@ namespace Meerkat.Web.Repositories
             return list;
         }
 
-        public async Task<ICollection<Event>> GetAllAsync()
+        public async Task<ICollection<Event>> GetAll()
         {
-           var list = await _context.Events.Include(e => e.StackTrace).ToListAsync();
+            var list = await _context.Events.Include(e => e.StackTrace).ToListAsync();
+            return list;
+        }
+
+        public async Task<ICollection<Event>> GetLastNEvents(int n)
+        {
+            var list = await _context.Events.OrderByDescending(e => e.Date).Take(n).ToListAsync();
             return list;
         }
 

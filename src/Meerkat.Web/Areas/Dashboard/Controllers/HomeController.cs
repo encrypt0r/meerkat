@@ -19,7 +19,7 @@ namespace Meerkat.Web.Areas.Dashboard.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var events = await _unitOfWork.Events.GetAllAsync();
+            var events = await _unitOfWork.Events.GetLastNEvents(25);
 
             var vms = events.Select(e => new EventViewModel(e));
 

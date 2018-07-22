@@ -11,7 +11,7 @@ namespace Meerkat.Web.Repositories
         void Add(T item);
         void Remove(T item);
 
-        Task<ICollection<T>> GetAllAsync();
+        Task<ICollection<T>> GetAll();
         Task<T> Get(TId id);
         Task<ICollection<Event>> Get(Expression<Func<T, bool>> predicate);
     }
