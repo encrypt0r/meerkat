@@ -4,6 +4,7 @@ using Meerkat.Web.Helpers;
 using Meerkat.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -66,15 +67,19 @@ namespace Meerkat.Web.Areas.Api
                 group = new EventGroup
                 {
                     FirstSeen = model,
-                    Fingerprint = model.Fingerprint
+                    Fingerprint = model.Fingerprint,
                 };
 
                 _unitOfWork.EventGroups.Add(group);
+                await _unitOfWork.CompleteAsync();
             }
 
+            if (group.Events == null)
+                group.Events = new List<Event>();
+
             group.LastSeen = model;
-            group.Events.Add(model);
             model.Group = group;
+            group.Events.Add(model);
 
             _unitOfWork.Events.Add(model);
             await _unitOfWork.CompleteAsync();
