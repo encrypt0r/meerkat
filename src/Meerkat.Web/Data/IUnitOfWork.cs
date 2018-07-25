@@ -6,6 +6,7 @@ namespace Meerkat.Web.Data
     public interface IUnitOfWork
     {
         IEventsRepository Events { get; }
+        IEventGroupsRepository EventGroups { get; }
 
         Task CompleteAsync();
     }

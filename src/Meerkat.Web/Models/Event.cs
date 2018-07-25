@@ -8,6 +8,7 @@ namespace Meerkat.Web.Models
     {
         public long Id { get; set; }
         public string Name { get; set; }
+        public string Fingerprint { get; set; }
         public string Message { get; set; }
         public DateTime Date { get; set; }
         public string Username { get; set; }
@@ -20,5 +21,8 @@ namespace Meerkat.Web.Models
         public string Runtime { get; set; }
         public string Modules { get; set; }
         public virtual ICollection<Frame> StackTrace { get; set; }
+
+        public EventGroup Group { get; set; }
+        public long? GroupId { get; set; }
     }
 }

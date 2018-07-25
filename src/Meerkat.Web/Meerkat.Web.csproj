@@ -6,9 +6,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Migrations\20180725225723_EventGroups.cs" />
+    <Compile Remove="Data\Migrations\20180725225723_EventGroups.Designer.cs" />
+    <Compile Remove="Data\Migrations\20180725225954_EventGroups.cs" />
+    <Compile Remove="Data\Migrations\20180725225954_EventGroups.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" PrivateAssets="All" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
+    <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1" />
   </ItemGroup>
 
   <ItemGroup>

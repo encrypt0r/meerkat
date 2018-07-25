@@ -1,5 +1,6 @@
 ﻿using Meerkat.Core.Dtos;
 using Meerkat.Web.Data;
+using Meerkat.Web.Helpers;
 using Meerkat.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -55,6 +56,25 @@ namespace Meerkat.Web.Areas.Api
                     Module = fdto.Module,
                 };
             }).ToList();
+
+            // Fingerprint must be the last property set, because it depends on the value of the other properties
+            model.Fingerprint = EventHelper.GetFingerprint(model);
+
+            var group = await _unitOfWork.EventGroups.GetByFingerprint(model.Fingerprint);
+            if (group == null)
+            {
+                group = new EventGroup
+                {
+                    FirstSeen = model,
+                    Fingerprint = model.Fingerprint
+                };
+
+                _unitOfWork.EventGroups.Add(group);
+            }
+
+            group.LastSeen = model;
+            group.Events.Add(model);
+            model.Group = group;
 
             _unitOfWork.Events.Add(model);
             await _unitOfWork.CompleteAsync();

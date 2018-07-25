@@ -11,9 +11,11 @@ namespace Meerkat.Web.Data
         {
             _context = context;
             Events = new EventsRepository(context);
+            EventGroups = new EventGroupsRepository(context);
         }
 
         public IEventsRepository Events { get; }
+        public IEventGroupsRepository EventGroups { get; }
 
         public Task CompleteAsync()
         {

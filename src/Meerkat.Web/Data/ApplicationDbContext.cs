@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Meerkat.Web.Models;
+﻿using Meerkat.Web.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +12,17 @@ namespace Meerkat.Web.Data
         }
 
         public DbSet<Event> Events { get; set; }
+        public DbSet<EventGroup> EventGroups { get; set; }
         public DbSet<Frame> Frames { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<EventGroup>().HasMany(g => g.Events)
+                                        .WithOne(e => e.Group)
+                                        .HasForeignKey(e => e.GroupId)
+                                        .OnDelete(DeleteBehavior.Restrict);
+        }
     }
 }

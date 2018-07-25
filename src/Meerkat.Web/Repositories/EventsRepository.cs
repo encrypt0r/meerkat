@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Meerkat.Web.Repositories
 {
-    public class EventsRepository : IRepository<Event, long>, IEventsRepository
+    public class EventsRepository : IEventsRepository
     {
         private readonly ApplicationDbContext _context;
 

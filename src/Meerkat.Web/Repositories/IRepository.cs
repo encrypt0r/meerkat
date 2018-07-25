@@ -13,6 +13,6 @@ namespace Meerkat.Web.Repositories
 
         Task<ICollection<T>> GetAll();
         Task<T> Get(TId id);
-        Task<ICollection<Event>> Get(Expression<Func<T, bool>> predicate);
+        Task<ICollection<T>> Get(Expression<Func<T, bool>> predicate);
     }
 }
