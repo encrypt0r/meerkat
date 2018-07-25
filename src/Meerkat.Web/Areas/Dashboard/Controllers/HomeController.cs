@@ -19,9 +19,9 @@ namespace Meerkat.Web.Areas.Dashboard.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var events = await _unitOfWork.Events.GetLastNEvents(25);
-
-            var vms = events.Select(e => new EventViewModel(e));
+            var groups = await _unitOfWork.EventGroups.GetLatestN(25);
+            var hits = await _unitOfWork.EventGroups.GetHits(groups.Select(g => g.Id));
+            var vms = groups.Select(g => new EventGroupViewModel(g, hits));
 
             return View(vms);
         }

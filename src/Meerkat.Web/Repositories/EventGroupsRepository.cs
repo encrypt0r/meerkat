@@ -56,6 +56,25 @@ namespace Meerkat.Web.Repositories
                                       .FirstOrDefaultAsync(g => g.Fingerprint == fingerprint);
         }
 
+        public async Task<Dictionary<long, int>> GetHits(IEnumerable<long> enumerable)
+        {
+            var list = await _context.EventGroups.Where(g => enumerable.Contains(g.Id))
+                                     .Select(g => new { g.Id, g.Events.Count })
+                                     .ToListAsync();
+
+            return list.ToDictionary(i => i.Id, i => i.Count);
+        }
+
+        public async Task<ICollection<EventGroup>> GetLatestN(int n)
+        {
+            var list = await _context.EventGroups.Include(g => g.FirstSeen)
+                                       .Include(g => g.LastSeen)
+                                       .OrderByDescending(g => g.LastSeen.Date)
+                                       .Take(n)
+                                       .ToListAsync();
+            return list;
+        }
+
         public void Remove(EventGroup item)
         {
             _context.Remove(item);

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Meerkat.Web.Areas.Dashboard.Models.EventViewModel>
+﻿@model IEnumerable<Meerkat.Web.Areas.Dashboard.Models.EventGroupViewModel>
 
 @{
     ViewData["Title"] = "View";
@@ -25,6 +25,9 @@
                 @Html.DisplayNameFor(model => model.Type)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Hits)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Date)
             </th>
             <th></th>
@@ -44,6 +47,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hits)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Date)

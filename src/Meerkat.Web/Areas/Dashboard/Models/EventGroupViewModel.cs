@@ -1,18 +1,20 @@
 ﻿using Meerkat.Core.Models;
 using Meerkat.Web.Models;
 using System;
+using System.Collections.Generic;
 
 namespace Meerkat.Web.Areas.Dashboard.Models
 {
-    public class EventViewModel
+    public class EventGroupViewModel
     {
-        public EventViewModel(Event model)
+        public EventGroupViewModel(EventGroup model, Dictionary<long, int> hits)
         {
-            Name = model.Name;
-            Message = model.Message;
-            Level = Enum.GetName(typeof(EventLevel), model.Level);
-            Type = model.Type;
-            Date = FormatDate(model.Date, DateTime.UtcNow);
+            Name = model.LastSeen.Name;
+            Message = model.LastSeen.Message;
+            Level = Enum.GetName(typeof(EventLevel), model.LastSeen.Level);
+            Type = model.LastSeen.Type;
+            Date = FormatDate(model.LastSeen.Date, DateTime.UtcNow);
+            Hits = hits[model.Id];
         }
 
         public string Name { get; }
@@ -20,6 +22,7 @@ namespace Meerkat.Web.Areas.Dashboard.Models
         public string Level { get; }
         public string Type { get; }
         public string Date { get; }
+        public int Hits { get; set; }
 
         private string FormatDate(DateTime date, DateTime now)
         {
