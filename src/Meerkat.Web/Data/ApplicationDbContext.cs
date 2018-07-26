@@ -19,8 +19,7 @@ namespace Meerkat.Web.Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<Event>().Property(e => e.Id).UseSqlServerIdentityColumn()
-                                                       .ValueGeneratedOnAdd();
+            builder.Entity<Event>().Property(e => e.Id).ValueGeneratedOnAdd();
 
             builder.Entity<EventGroup>().HasMany(g => g.Events)
                                         .WithOne(e => e.Group)

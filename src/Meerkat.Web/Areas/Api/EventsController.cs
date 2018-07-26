@@ -78,10 +78,8 @@ namespace Meerkat.Web.Areas.Api
                 group.Events = new List<Event>();
 
             group.LastSeen = model;
-            model.Group = group;
             group.Events.Add(model);
 
-            _unitOfWork.Events.Add(model);
             await _unitOfWork.CompleteAsync();
 
             return Created(string.Empty, null);
