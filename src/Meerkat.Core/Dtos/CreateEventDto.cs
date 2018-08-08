@@ -1,8 +1,7 @@
-﻿using Meerkat.Core.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace Meerkat.Core.Dtos
+namespace Meerkat.Dtos
 {
     public class CreateEventDto
     {

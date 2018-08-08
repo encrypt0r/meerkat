@@ -15,7 +15,7 @@ namespace Meerkat.Web.Helpers
             // We use Rollbar's grouping algorithm:
             // https://docs.rollbar.com/docs/grouping-algorithm/
 
-            if (e.Level == Core.Models.EventLevel.Error)
+            if (e.Level == EventLevel.Error)
             {
                 return GetErrorFingerprint(e);
             }

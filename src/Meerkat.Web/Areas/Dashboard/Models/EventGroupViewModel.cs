@@ -1,5 +1,4 @@
-﻿using Meerkat.Core.Models;
-using Meerkat.Web.Models;
+﻿using Meerkat.Web.Models;
 using System;
 using System.Collections.Generic;
 

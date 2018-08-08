@@ -1,4 +1,4 @@
-﻿namespace Meerkat.Core.Models
+﻿namespace Meerkat
 {
     public enum EventLevel
     {
