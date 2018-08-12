@@ -1,4 +1,4 @@
-﻿namespace Meerkat.Core.Dtos
+﻿namespace Meerkat.Dtos
 {
     public class CreateFrameDto
     {

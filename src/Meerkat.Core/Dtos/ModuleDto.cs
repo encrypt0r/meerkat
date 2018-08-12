@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Meerkat.Core.Dtos
+namespace Meerkat.Dtos
 {
     public class ModuleDto
     {

@@ -1,4 +1,4 @@
-﻿using Meerkat.Core.Dtos;
+﻿using Meerkat.Dtos;
 using Meerkat.Web.Data;
 using Meerkat.Web.Helpers;
 using Meerkat.Web.Models;
@@ -42,21 +42,28 @@ namespace Meerkat.Web.Areas.Api
                 MachineName = dto.MachineName,
             };
 
-            model.Modules = string.Join(",", dto.Modules.Select(m => $"{m.Name}:{m.Version}").ToArray());
-            model.StackTrace = dto.StackTrace.Select(fdto =>
+            if (dto.Modules != null)
             {
-                return new Frame
+                model.Modules = string.Join(",", dto.Modules.Select(m => $"{m.Name}:{m.Version}").ToArray());
+            }
+
+            if (dto.StackTrace != null)
+            {
+                model.StackTrace = dto.StackTrace.Select(fdto =>
                 {
-                    Event = model,
-                    ColumnNumber = fdto.ColumnNumber,
-                    FileName = fdto.FileName,
-                    ContextLine = fdto.ContextLine,
-                    Function = fdto.Function,
-                    InApp = fdto.InApp,
-                    LineNumber = fdto.LineNumber,
-                    Module = fdto.Module,
-                };
-            }).ToList();
+                    return new Frame
+                    {
+                        Event = model,
+                        ColumnNumber = fdto.ColumnNumber,
+                        FileName = fdto.FileName,
+                        ContextLine = fdto.ContextLine,
+                        Function = fdto.Function,
+                        InApp = fdto.InApp,
+                        LineNumber = fdto.LineNumber,
+                        Module = fdto.Module,
+                    };
+                }).ToList();
+            }
 
             // Fingerprint must be the last property set, because it depends on the value of the other properties
             model.Fingerprint = EventHelper.GetFingerprint(model);

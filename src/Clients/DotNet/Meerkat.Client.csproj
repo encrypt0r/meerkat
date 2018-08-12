@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
+    <RootNamespace>Meerkat</RootNamespace>
+    <AssemblyName>Meerkat</AssemblyName>
+    <ApplicationIcon />
+    <OutputType>Library</OutputType>
+    <StartupObject />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\Meerkat.Core\Dtos\CreateEventDto.cs" Link="Dtos\CreateEventDto.cs" />
+    <Compile Include="..\..\Meerkat.Core\Dtos\CreateFrameDto.cs" Link="Dtos\CreateFrameDto.cs" />
+    <Compile Include="..\..\Meerkat.Core\Dtos\ModuleDto.cs" Link="Dtos\ModuleDto.cs" />
+    <Compile Include="..\..\Meerkat.Core\EventLevel.cs" Link="EventLevel.cs" />
+    <Compile Include="..\..\Meerkat.Core\Helpers\PathHelper.cs" Link="Helpers\PathHelper.cs" />
+  </ItemGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
+    <DefineConstants>NETCORE;NETSTANDARD;NETSTANDARD2_0</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net45'">
+    <DefineConstants>NETFULL;NET45</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+    <Reference Include="mscorlib" />
+    <Reference Include="Microsoft.Win32.Registery" />
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Dtos\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+
+</Project>

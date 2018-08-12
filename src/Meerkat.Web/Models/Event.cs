@@ -1,5 +1,4 @@
-﻿using Meerkat.Core.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Meerkat.Web.Models
