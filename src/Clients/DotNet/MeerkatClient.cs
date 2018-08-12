@@ -2,10 +2,9 @@
 using Meerkat.Helpers;
 using Newtonsoft.Json;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Text;
@@ -40,13 +39,18 @@ namespace Meerkat
         {
             // Report inner-most exception, since it has the most useful information
             while (e.InnerException != null)
+            {
+                if (e.InnerException?.TargetSite == null)
+                    break;
+
                 e = e.InnerException;
+            }
 
             var dto = new CreateEventDto
             {
                 Message = e.Message,
                 Level = EventLevel.Error,
-                RootCause = $"{e.TargetSite.Name} of {e.TargetSite.ReflectedType?.Name ?? "<DynamicType>"}",
+                RootCause = $"{e.TargetSite?.Name}() in {e.TargetSite?.ReflectedType?.FullName ?? "<DynamicType>"}",
             };
 
             var trace = new StackTrace(e, true);
@@ -75,9 +79,14 @@ namespace Meerkat
         {
             try
             {
+                var appSecurityProtocol = ServicePointManager.SecurityProtocol;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+
                 var json = JsonConvert.SerializeObject(dto);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _httpClient.PostAsync("Api/Events", content);
+
+                ServicePointManager.SecurityProtocol = appSecurityProtocol;
                 return response.IsSuccessStatusCode;
             }
             catch (Exception e)
