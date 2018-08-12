@@ -2,41 +2,26 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.InteropServices;
-
+using Microsoft.Win32;
 namespace Meerkat.Helpers
 {
     public static partial class EnvironmentHelper
     {
-        // https://stackoverflow.com/a/2819962/7003797
-        private static Dictionary<int, string> _versionNames = new Dictionary<int, string>
+
+#if NET45
+        // Environment.OSVersion is not reliable unless you configure app manifest correctly,
+        // which is not an option in our case
+        // https://stackoverflow.com/a/36636438/7003797
+        public static string GetOsVersion45()
         {
-            { 50 , "Windows 2000" },
-            { 51 , "Windows XP" },
-            { 52, "Windows 2003" },
-            { 60, "Windows Vista" },
-            { 60, "Windows 2008" },
-            { 61, "Windows 7" },
-            { 61, "Windows 2008 R2" },
-            { 62, "Windows 8" },
-            { 63 , "Windows 8.1" },
-            { 100, "Windows 10" },
-        };
-
-        private static string GetOsVersion45()
-        {
-            var version = Environment.OSVersion.Version;
-            var versionNumber = int.Parse($"{version.Major}{version.Minor}");
-
-            if (_versionNames.ContainsKey(versionNumber))
-                return $"{_versionNames[versionNumber]} - {version}";
-
-            return version.ToString();
+            return Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ProductName", "").ToString();
         }
+#endif
 
         private static string CheckFor45PlusVersion(int releaseKey)
         {
             if (releaseKey >= 461808)
-                return "4.7.2 or later";
+                return $"4.7.2 ({releaseKey})";
             if (releaseKey >= 461308)
                 return "4.7.1";
             if (releaseKey >= 460798)

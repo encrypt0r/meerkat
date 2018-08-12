@@ -1,6 +1,8 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 
 namespace Meerkat.Helpers
 {
@@ -45,7 +47,8 @@ namespace Meerkat.Helpers
                 }
             }
 #elif NETSTANDARD
-            return RuntimeInformation.FrameworkDescription;
+            // https://stackoverflow.com/a/49754978/7003797
+            return Assembly.GetEntryAssembly()?.GetCustomAttribute<TargetFrameworkAttribute>()?.FrameworkName;
 #endif
         }
     }

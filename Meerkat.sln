@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meerkat.Core", "src\Meerkat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meerkat.Client", "src\Clients\DotNet\Meerkat.Client.csproj", "{A573CF17-4FCB-4345-9666-B135BFBE867F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meerkat.Client.Sample", "src\Clients\Samples\DotNet\Meerkat.Client.Sample\Meerkat.Client.Sample.csproj", "{791586DC-91B2-4056-9344-8EDF96C8EC81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meerkat.Client.Sample", "src\Clients\Samples\DotNet\Meerkat.Client.Sample\Meerkat.Client.Sample.csproj", "{791586DC-91B2-4056-9344-8EDF96C8EC81}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

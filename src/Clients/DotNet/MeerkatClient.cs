@@ -38,10 +38,15 @@ namespace Meerkat
 
         public async Task<bool> ReportAsync(Exception e)
         {
+            // Report inner-most exception, since it has the most useful information
+            while (e.InnerException != null)
+                e = e.InnerException;
+
             var dto = new CreateEventDto
             {
                 Message = e.Message,
-                Level = EventLevel.Error
+                Level = EventLevel.Error,
+                RootCause = $"{e.TargetSite.Name} of {e.TargetSite.ReflectedType?.Name ?? "<DynamicType>"}",
             };
 
             var trace = new StackTrace(e, true);
