@@ -12,6 +12,8 @@
     <Compile Remove="Data\Migrations\20180725225954_EventGroups.Designer.cs" />
     <Compile Remove="Data\Migrations\20180725232144_EventIdAutogeneration.cs" />
     <Compile Remove="Data\Migrations\20180725232144_EventIdAutogeneration.Designer.cs" />
+    <Compile Remove="Data\Migrations\20180814185407_RethinkModels.cs" />
+    <Compile Remove="Data\Migrations\20180814185407_RethinkModels.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

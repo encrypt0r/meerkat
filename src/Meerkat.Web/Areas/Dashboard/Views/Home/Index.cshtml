@@ -13,9 +13,6 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Message)
             </th>
             <th>
@@ -30,15 +27,24 @@
             <th>
                 @Html.DisplayNameFor(model => model.Date)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RootCause)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstRelease)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastRelease)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Module)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Message)
             </td>
@@ -53,6 +59,18 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.RootCause)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.FirstRelease)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.LastRelease)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Module)
             </td>
             <td>
                 @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
