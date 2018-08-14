@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
     <RootNamespace>Meerkat</RootNamespace>
-    <AssemblyName>Meerkat</AssemblyName>
+    <AssemblyName>Meerkat.Net</AssemblyName>
     <ApplicationIcon />
     <OutputType>Library</OutputType>
     <StartupObject />

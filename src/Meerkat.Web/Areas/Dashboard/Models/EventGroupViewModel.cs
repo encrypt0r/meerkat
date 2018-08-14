@@ -1,6 +1,7 @@
 ﻿using Meerkat.Web.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Meerkat.Web.Areas.Dashboard.Models
 {
@@ -8,20 +9,26 @@ namespace Meerkat.Web.Areas.Dashboard.Models
     {
         public EventGroupViewModel(EventGroup model, Dictionary<long, int> hits)
         {
-            Name = model.LastSeen.Name;
             Message = model.LastSeen.Message;
             Level = Enum.GetName(typeof(EventLevel), model.LastSeen.Level);
             Type = model.LastSeen.Type;
+            LastRelease = model.LastSeen.Release;
+            FirstRelease = model.FirstSeen.Release;
             Date = FormatDate(model.LastSeen.Date, DateTime.UtcNow);
             Hits = hits[model.Id];
+            RootCause = model.LastSeen.RootCause;
+            Module = model.LastSeen.Module;
         }
 
-        public string Name { get; }
         public string Message { get; }
+        public string LastRelease { get; }
+        public string FirstRelease { get; set; }
         public string Level { get; }
+        public string Module { get; }
         public string Type { get; }
         public string Date { get; }
-        public int Hits { get; set; }
+        public int Hits { get; }
+        public string RootCause { get; }
 
         private string FormatDate(DateTime date, DateTime now)
         {

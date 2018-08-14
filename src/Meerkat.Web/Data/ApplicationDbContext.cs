@@ -20,6 +20,7 @@ namespace Meerkat.Web.Data
             base.OnModelCreating(builder);
 
             builder.Entity<Event>().Property(e => e.Id).ValueGeneratedOnAdd();
+            builder.Entity<Event>().HasMany(e => e.StackTrace).WithOne(f => f.Event);
 
             builder.Entity<EventGroup>().HasMany(g => g.Events)
                                         .WithOne(e => e.Group)

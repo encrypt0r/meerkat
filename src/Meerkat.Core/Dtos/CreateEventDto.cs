@@ -5,7 +5,6 @@ namespace Meerkat.Dtos
 {
     public class CreateEventDto
     {
-        public string Name { get; set; }
         public string Message { get; set; }
         public DateTime? Date { get; set; }
         public string Username { get; set; }
@@ -16,7 +15,11 @@ namespace Meerkat.Dtos
         public ICollection<CreateFrameDto> StackTrace { get; set; }
         public string MachineName { get; set; }
         public string OperatingSystem { get; set; }
+        public string OSArchitecture { get; set; }
+        public string Module { get; set; }
+        public string ModuleVersion { get; set; }
+        public string Sdk { get; set; }
+        public string SdkVersion { get; set; }
         public string Runtime { get; set; }
-        public ICollection<ModuleDto> Modules { get; set; }
     }
 }

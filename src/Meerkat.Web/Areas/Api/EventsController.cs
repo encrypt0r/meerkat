@@ -29,7 +29,6 @@ namespace Meerkat.Web.Areas.Api
 
             var model = new Event
             {
-                Name = dto.Name,
                 Message = dto.Message,
                 Level = dto.Level,
                 Date = dto.Date ?? DateTime.UtcNow,
@@ -40,12 +39,12 @@ namespace Meerkat.Web.Areas.Api
                 Runtime = dto.Runtime,
                 OperatingSystem = dto.OperatingSystem,
                 MachineName = dto.MachineName,
+                Sdk = dto.Sdk,
+                SdkVersion = dto.SdkVersion,
+                OSArchitecture = dto.OSArchitecture,
+                Module = dto.Module,
+                ModuleVersion = dto.ModuleVersion,
             };
-
-            if (dto.Modules != null)
-            {
-                model.Modules = string.Join(",", dto.Modules.Select(m => $"{m.Name}:{m.Version}").ToArray());
-            }
 
             if (dto.StackTrace != null)
             {

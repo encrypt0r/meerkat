@@ -8,6 +8,6 @@ namespace Meerkat.Web.Repositories
 {
     public interface IEventsRepository : IRepository<Event, long>
     {
-        Task<ICollection<Event>> GetLastNEvents(int n);
+
     }
 }

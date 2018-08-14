@@ -46,11 +46,17 @@ namespace Meerkat
                 e = e.InnerException;
             }
 
+            var culpritAssemblyInfo = e.TargetSite?.ReflectedType?.Assembly?.GetName()
+                                      ?? Assembly.GetEntryAssembly().GetName();
+
             var dto = new CreateEventDto
             {
                 Message = e.Message,
                 Level = EventLevel.Error,
+                Type = e.GetType().Name,
                 RootCause = $"{e.TargetSite?.Name}() in {e.TargetSite?.ReflectedType?.FullName ?? "<DynamicType>"}",
+                Module = culpritAssemblyInfo.Name,
+                ModuleVersion = culpritAssemblyInfo.Version.ToString(),
             };
 
             var trace = new StackTrace(e, true);
@@ -104,7 +110,10 @@ namespace Meerkat
             dto.Username = Environment.UserName;
             dto.OperatingSystem = EnvironmentHelper.GetOperatinSystemName();
             dto.Runtime = EnvironmentHelper.GetRuntimeVersion();
+            dto.OSArchitecture = EnvironmentHelper.GetOSArchitecture();
             dto.Release = Assembly.GetEntryAssembly().GetName().Version.ToString();
+            dto.Sdk = ClientDefaults.SdkName;
+            dto.SdkVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
         private bool IsFrameworkModule(string module)
