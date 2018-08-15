@@ -2,32 +2,33 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
-namespace Meerkat.Web.Areas.Dashboard.Models
+namespace Meerkat.Web.Areas.Dashboard.Dtos
 {
-    public class EventGroupViewModel
+    public class EventGroupDto
     {
-        public EventGroupViewModel(EventGroup model, Dictionary<long, int> hits)
+        public EventGroupDto(EventGroup model, Dictionary<long, int> hits)
         {
+            Id = model.Id;
             Message = model.LastSeen.Message;
             Level = Enum.GetName(typeof(EventLevel), model.LastSeen.Level);
             Type = model.LastSeen.Type;
-            LastRelease = model.LastSeen.Release;
-            FirstRelease = model.FirstSeen.Release;
             Date = FormatDate(model.LastSeen.Date, DateTime.UtcNow);
             Hits = hits[model.Id];
             RootCause = model.LastSeen.RootCause;
+            Age = FormatAge(model.LastSeen.Date, DateTime.UtcNow);
             Module = model.LastSeen.Module;
         }
 
+        public long Id { get; set; }
         public string Message { get; }
-        public string LastRelease { get; }
-        public string FirstRelease { get; set; }
+        public string Age { get; set; }
         public string Level { get; }
-        public string Module { get; }
         public string Type { get; }
         public string Date { get; }
         public int Hits { get; }
+        public string Module { get; set; }
         public string RootCause { get; }
 
         private string FormatDate(DateTime date, DateTime now)
@@ -61,6 +62,36 @@ namespace Meerkat.Web.Areas.Dashboard.Models
             else
             {
                 return $"{date:MMMM} {date.Day} at {date:hh:mm tt}";
+            }
+        }
+
+        private string FormatAge(DateTime date, DateTime now)
+        {
+            var interval = now - date;
+
+            if (interval < TimeSpan.Zero)
+            {
+                return "From the future!";
+            }
+            else if (interval.TotalDays < 1)
+            {
+                return "Less than a day old.";
+            }
+            else if (interval.TotalDays < 90)
+            {
+                return $"{Math.Round(interval.TotalDays)} days old.";
+            }
+            else if (interval.TotalDays < 365)
+            {
+                return $"About {Math.Floor(interval.TotalDays / 30)} months old.";
+            }
+            else if (Math.Floor(interval.TotalDays / 365) == 1)
+            {
+                return $"About one year old.";
+            }
+            else
+            {
+                return $"About {Math.Floor(interval.TotalDays / 365)} years old.";
             }
         }
     }

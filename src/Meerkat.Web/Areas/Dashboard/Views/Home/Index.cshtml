@@ -1,6 +1,4 @@
-﻿@model IEnumerable<Meerkat.Web.Areas.Dashboard.Models.EventGroupViewModel>
-
-@{
+﻿@{
     ViewData["Title"] = "View";
 }
 
@@ -9,74 +7,74 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table class="table table-responsive" id="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Message)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Level)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Type)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Hits)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RootCause)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstRelease)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastRelease)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Module)
-            </th>
-            <th></th>
+            <th scope="col">Message</th>
+            <th scope="col">Level</th>
+            <th scope="col">Hits</th>
+            <th scope="col">Module</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Message)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Level)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Hits)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.RootCause)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.FirstRelease)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.LastRelease)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Module)
-            </td>
-            <td>
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
+
     </tbody>
 </table>
+
+@section Styles {
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+
+    <style>
+        .flex-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .horizontal {
+            display: flex;
+            flex-direction: row;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(() => {
+            $("table").DataTable({
+                order: false,
+                ajax: {
+                    url: "@Url.Action("GetEventGroups", "Home")",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "message",
+                        render: (data, type, group) => {
+                            return `
+    <div class="flex-container">
+        <div class="horizontal">
+            <a href="#">` + group.type + `</a>
+            <p>&nbsp;&mdash;&nbsp;</p>
+            <p>` + group.rootCause + `</p>
+        </div>
+        <div>
+            <p>` + group.message + `</p>
+        </div>
+        <div class="horizontal">
+            <p>` + group.date + `</p>
+            <p>&nbsp;&mdash;&nbsp;</p>
+            <p>` + group.age + `</p>
+        </div>
+    </div>
+    `;
+                        }
+                    },
+                    { data: "level" },
+                    { data: "hits" },
+                    { data: "module"}
+                ]
+            });
+        })
+    </script>
+}

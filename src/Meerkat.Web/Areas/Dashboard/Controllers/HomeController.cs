@@ -1,4 +1,4 @@
-﻿using Meerkat.Web.Areas.Dashboard.Models;
+﻿using Meerkat.Web.Areas.Dashboard.Dtos;
 using Meerkat.Web.Data;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -17,13 +17,19 @@ namespace Meerkat.Web.Areas.Dashboard.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetEventGroups()
         {
             var groups = await _unitOfWork.EventGroups.GetLatestN(25);
             var hits = await _unitOfWork.EventGroups.GetHits(groups.Select(g => g.Id));
-            var vms = groups.Select(g => new EventGroupViewModel(g, hits));
+            var vms = groups.Select(g => new EventGroupDto(g, hits));
 
-            return View(vms);
+            return Json(vms);
         }
     }
 }
