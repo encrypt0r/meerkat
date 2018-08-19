@@ -13,6 +13,7 @@ using Meerkat.Web.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Meerkat.Web.Filters;
+using Meerkat.Web.Services;
 
 namespace Meerkat.Web
 {
@@ -42,7 +43,7 @@ namespace Meerkat.Web
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddApplicationData();
-
+            services.AddApplicationServices();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddSwaggerGen(config =>

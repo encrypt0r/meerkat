@@ -2,6 +2,7 @@
 using Meerkat.Web.Data;
 using Meerkat.Web.Helpers;
 using Meerkat.Web.Models;
+using Meerkat.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -15,10 +16,12 @@ namespace Meerkat.Web.Areas.Api
     public class EventsController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IEventStatisticsService _statisticsService;
 
-        public EventsController(IUnitOfWork unitOfWork)
+        public EventsController(IUnitOfWork unitOfWork, IEventStatisticsService statisticsService)
         {
             _unitOfWork = unitOfWork;
+            _statisticsService = statisticsService;
         }
 
         [HttpPost]
@@ -87,6 +90,8 @@ namespace Meerkat.Web.Areas.Api
             group.Events.Add(model);
 
             await _unitOfWork.CompleteAsync();
+
+            _statisticsService.DataModified();
 
             return Created(string.Empty, null);
         }

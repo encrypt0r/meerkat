@@ -56,7 +56,7 @@ namespace Meerkat.Web.Repositories
                                       .FirstOrDefaultAsync(g => g.Fingerprint == fingerprint);
         }
 
-        public async Task<Dictionary<long, int>> GetHits(IEnumerable<long> ids)
+        public async Task<Dictionary<long, int>> GetHitsAsync(IEnumerable<long> ids)
         {
             var list = await _context.EventGroups.Where(g => ids.Contains(g.Id))
                                      .Select(g => new { g.Id, g.Events.Count })
@@ -65,7 +65,7 @@ namespace Meerkat.Web.Repositories
             return list.ToDictionary(i => i.Id, i => i.Count);
         }
 
-        public async Task<Dictionary<long, int>> GetNumberOfAffectedUsers(IEnumerable<long> ids)
+        public async Task<Dictionary<long, int>> GetNumberOfAffectedUsersAsync(IEnumerable<long> ids)
         {
             var list = await _context.EventGroups.Where(g => ids.Contains(g.Id))
                                      .Select(g => new
@@ -78,12 +78,12 @@ namespace Meerkat.Web.Repositories
             return list.ToDictionary(i => i.Id, i => i.Count);
         }
 
-        public Task<ICollection<EventGroup>> GetLatest()
+        public Task<ICollection<EventGroup>> GetLatestAsync()
         {
-            return GetLatestN(-1);
+            return GetLatestNAsync(-1);
         }
 
-        public async Task<ICollection<EventGroup>> GetLatestN(int n)
+        public async Task<ICollection<EventGroup>> GetLatestNAsync(int n)
         {
             IQueryable<EventGroup> list = _context.EventGroups.Include(g => g.FirstSeen)
                                         .Include(g => g.LastSeen)

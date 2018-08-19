@@ -1,11 +1,11 @@
 ﻿using Meerkat.Web.Models;
 using System;
 
-namespace Meerkat.Web.Areas.Dashboard.Dtos
+namespace Meerkat.Web.Models
 {
-    public class EventGroupDto
+    public class EventGroupSummary
     {
-        public EventGroupDto(EventGroup model, int users, int hits)
+        public EventGroupSummary(EventGroup model, int users, int hits)
         {
             Id = model.Id;
             Message = model.LastSeen.Message;

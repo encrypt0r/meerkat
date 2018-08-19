@@ -1,7 +1,6 @@
-﻿using Meerkat.Web.Areas.Dashboard.Dtos;
-using Meerkat.Web.Data;
+﻿using Meerkat.Web.Data;
+using Meerkat.Web.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Meerkat.Web.Areas.Dashboard.Controllers
@@ -10,10 +9,12 @@ namespace Meerkat.Web.Areas.Dashboard.Controllers
     public class HomeController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IEventStatisticsService _eventStatistics;
 
-        public HomeController(IUnitOfWork unitOfWork)
+        public HomeController(IUnitOfWork unitOfWork, IEventStatisticsService eventStatistics)
         {
             _unitOfWork = unitOfWork;
+            _eventStatistics = eventStatistics;
         }
 
         [HttpGet]
@@ -25,12 +26,9 @@ namespace Meerkat.Web.Areas.Dashboard.Controllers
         [HttpGet]
         public async Task<IActionResult> GetEventGroups()
         {
-            var groups = await _unitOfWork.EventGroups.GetLatest();
-            var hits = await _unitOfWork.EventGroups.GetHits(groups.Select(g => g.Id));
-            var users = await _unitOfWork.EventGroups.GetNumberOfAffectedUsers(groups.Select(g => g.Id));
-            var vms = groups.Select(g => new EventGroupDto(g, users[g.Id], hits[g.Id]));
+            var summaries = await _eventStatistics.GetEventGroupSummariesAsync();
 
-            return Json(vms);
+            return Json(summaries);
         }
     }
 }
