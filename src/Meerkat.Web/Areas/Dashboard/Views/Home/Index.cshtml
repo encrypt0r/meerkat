@@ -4,6 +4,8 @@
 
 <h2>Dashboard</h2>
 
+<p>Latest events (<span id="total"></span>): </p>
+
 <div>
     <table class="table table-striped table-bordered" style="width:100%" id="table">
         <thead>
@@ -40,6 +42,7 @@
     <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://momentjs.com/downloads/moment.min.js"></script>
     <script>
+        let table;
         function writeDate(date, text) {
             return '<p data-toggle="tooltip" title="' + moment(date).format('MMMM Do YYYY, h:mm:ss a') + '">' + text + '</p>';
         }
@@ -57,33 +60,40 @@
             }
         }
 
+        function tableLoaded() {
+            let total = table.data().count();
+            console.log(total);
+            $("#total").text(table.data().count());
+        }
+
         $(document).ready(() => {
-            $("table").DataTable({
-                ordering: false,
-                order: [[0, '']],
-                ajax: {
-                    url: "@Url.Action("GetEventGroups", "Home")",
-                    dataSrc: ""
-                },
-                columns: [
-                    {
-                        data: "message",
-                        render: (data, type, group) => {
-                            return `
-    <div class="flex-container">
-        <div class="horizontal">
-            <a href="#">` + group.type + `</a>
-            <p>&nbsp;&mdash;&nbsp;</p>
-            <p>` + group.rootCause + `</p>
-        </div>
-        <div>
-            <p>` + group.message + `</p>
-        </div>
-        <div class="horizontal">
-           ` + formatDate(group.firstSeen, group.lastSeen) + `
-        </div>
-    </div>
-    `;
+            table =  $("table").DataTable({
+                     ordering: false,
+                     order: [[0, '']],
+                     ajax: {
+                         url: "@Url.Action("GetEventGroups", "Home")",
+                         dataSrc: ""
+                     },
+                     initComplete: tableLoaded,
+                     columns: [
+                         {
+                             data: "message",
+                             render: (data, type, group) => {
+                                 return `
+         <div class="flex-container">
+             <div class="horizontal">
+                 <a href="#">` + group.type + `</a>
+                 <p>&nbsp;&mdash;&nbsp;</p>
+                 <p>` + group.rootCause + `</p>
+             </div>
+             <div>
+                 <p>` + group.message + `</p>
+             </div>
+             <div class="horizontal">
+                ` + formatDate(group.firstSeen, group.lastSeen) + `
+             </div>
+         </div>
+         `;
                         }
                     },
                     { data: "level" },
