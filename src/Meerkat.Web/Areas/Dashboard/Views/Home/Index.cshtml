@@ -1,30 +1,28 @@
 ﻿@{
-    ViewData["Title"] = "View";
+    ViewData["Title"] = "Dashboard";
 }
 
-<h2>View</h2>
+<h2>Dashboard</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table table-responsive" id="table">
-    <thead>
-        <tr>
-            <th scope="col">Message</th>
-            <th scope="col">Level</th>
-            <th scope="col">Hits</th>
-            <th scope="col">Module</th>
-        </tr>
-    </thead>
-    <tbody>
-
-    </tbody>
-</table>
+<div>
+    <table class="table table-striped table-bordered" style="width:100%" id="table">
+        <thead>
+            <tr>
+                <th scope="col">Message</th>
+                <th scope="col">Level</th>
+                <th scope="col">Hits</th>
+                <th scope="col">Module</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
 
 @section Styles {
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" />
 
     <style>
+
         .flex-container {
             display: flex;
             flex-direction: column;
@@ -39,10 +37,13 @@
 
 @section Scripts {
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+
     <script>
         $(document).ready(() => {
             $("table").DataTable({
-                order: false,
+                ordering: false,
+                order: [[0, '']],
                 ajax: {
                     url: "@Url.Action("GetEventGroups", "Home")",
                     dataSrc: ""
