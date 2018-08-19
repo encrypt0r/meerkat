@@ -11,7 +11,7 @@
                 <th scope="col">Message</th>
                 <th scope="col">Level</th>
                 <th scope="col">Hits</th>
-                <th scope="col">Module</th>
+                <th scope="col">Users</th>
             </tr>
         </thead>
         <tbody></tbody>
@@ -38,8 +38,25 @@
 @section Scripts {
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-
+    <script src="https://momentjs.com/downloads/moment.min.js"></script>
     <script>
+        function writeDate(date, text) {
+            return '<p data-toggle="tooltip" title="' + moment(date).format('MMMM Do YYYY, h:mm:ss a') + '">' + text + '</p>';
+        }
+
+        function formatDate(firstSeen, lastSeen) {
+            const age = moment(firstSeen).fromNow();
+            const latest = moment(lastSeen).fromNow();
+            if (age === latest) {
+                return writeDate(firstSeen, age);
+            }
+            else {
+                return writeDate(lastSeen, latest) +
+                    '<p>&nbsp;&mdash;&nbsp;</p>' +
+                    writeDate(firstSeen, age.split("ago")[0] + ' old');
+            }
+        }
+
         $(document).ready(() => {
             $("table").DataTable({
                 ordering: false,
@@ -63,9 +80,7 @@
             <p>` + group.message + `</p>
         </div>
         <div class="horizontal">
-            <p>` + group.date + `</p>
-            <p>&nbsp;&mdash;&nbsp;</p>
-            <p>` + group.age + `</p>
+           ` + formatDate(group.firstSeen, group.lastSeen) + `
         </div>
     </div>
     `;
@@ -73,9 +88,9 @@
                     },
                     { data: "level" },
                     { data: "hits" },
-                    { data: "module"}
+                    { data: "users" }
                 ]
             });
-        })
+        });
     </script>
 }

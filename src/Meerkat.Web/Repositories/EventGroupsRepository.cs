@@ -56,23 +56,42 @@ namespace Meerkat.Web.Repositories
                                       .FirstOrDefaultAsync(g => g.Fingerprint == fingerprint);
         }
 
-        public async Task<Dictionary<long, int>> GetHits(IEnumerable<long> enumerable)
+        public async Task<Dictionary<long, int>> GetHits(IEnumerable<long> ids)
         {
-            var list = await _context.EventGroups.Where(g => enumerable.Contains(g.Id))
+            var list = await _context.EventGroups.Where(g => ids.Contains(g.Id))
                                      .Select(g => new { g.Id, g.Events.Count })
                                      .ToListAsync();
 
             return list.ToDictionary(i => i.Id, i => i.Count);
         }
 
+        public async Task<Dictionary<long, int>> GetNumberOfAffectedUsers(IEnumerable<long> ids)
+        {
+            var list = await _context.EventGroups.Where(g => ids.Contains(g.Id))
+                                     .Select(g => new
+                                     {
+                                         Id = g.Id,
+                                         Count = g.Events.Select(e => e.Username).Distinct().Count()
+                                     })
+                                     .ToListAsync();
+
+            return list.ToDictionary(i => i.Id, i => i.Count);
+        }
+
+        public Task<ICollection<EventGroup>> GetLatest()
+        {
+            return GetLatestN(-1);
+        }
+
         public async Task<ICollection<EventGroup>> GetLatestN(int n)
         {
-            var list = await _context.EventGroups.Include(g => g.FirstSeen)
-                                       .Include(g => g.LastSeen)
-                                       .OrderByDescending(g => g.LastSeen.Date)
-                                       .Take(n)
-                                       .ToListAsync();
-            return list;
+            IQueryable<EventGroup> list = _context.EventGroups.Include(g => g.FirstSeen)
+                                        .Include(g => g.LastSeen)
+                                        .OrderByDescending(g => g.LastSeen.Date);
+            if (n > 0)
+                list = list.Take(n);
+
+            return await list.ToListAsync();
         }
 
         public void Remove(EventGroup item)

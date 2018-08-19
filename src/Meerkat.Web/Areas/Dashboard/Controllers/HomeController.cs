@@ -25,9 +25,10 @@ namespace Meerkat.Web.Areas.Dashboard.Controllers
         [HttpGet]
         public async Task<IActionResult> GetEventGroups()
         {
-            var groups = await _unitOfWork.EventGroups.GetLatestN(25);
+            var groups = await _unitOfWork.EventGroups.GetLatest();
             var hits = await _unitOfWork.EventGroups.GetHits(groups.Select(g => g.Id));
-            var vms = groups.Select(g => new EventGroupDto(g, hits));
+            var users = await _unitOfWork.EventGroups.GetNumberOfAffectedUsers(groups.Select(g => g.Id));
+            var vms = groups.Select(g => new EventGroupDto(g, users[g.Id], hits[g.Id]));
 
             return Json(vms);
         }

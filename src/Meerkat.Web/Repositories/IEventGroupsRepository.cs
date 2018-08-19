@@ -8,6 +8,8 @@ namespace Meerkat.Web.Repositories
     {
         Task<EventGroup> GetByFingerprint(string fingerprint);
         Task<ICollection<EventGroup>> GetLatestN(int n);
-        Task<Dictionary<long, int>> GetHits(IEnumerable<long> enumerable);
+        Task<ICollection<EventGroup>> GetLatest();
+        Task<Dictionary<long, int>> GetHits(IEnumerable<long> ids);
+        Task<Dictionary<long, int>> GetNumberOfAffectedUsers(IEnumerable<long> ids);
     }
 }
