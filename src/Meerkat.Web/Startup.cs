@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Meerkat.Web.Filters;
 using Meerkat.Web.Services;
+using Newtonsoft.Json;
 
 namespace Meerkat.Web
 {
@@ -44,7 +45,12 @@ namespace Meerkat.Web
 
             services.AddApplicationData();
             services.AddApplicationServices();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc()
+                    .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                    .AddJsonOptions(options =>
+                    {
+                        options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
+                    });
 
             services.AddSwaggerGen(config =>
             {
